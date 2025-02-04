@@ -1,11 +1,8 @@
 'use client'
-
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-
 import * as api from '@/lib/api'
-
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -46,58 +43,19 @@ export default function TodoDetail({ params }: { params: { id: string } }) {
 
   async function updateTodo() {
     if (!todo) return
-    
-    try {
       const updated = await api.updateTodo(todo.id, { text: editText })
       setTodo(updated)
       setIsEditing(false)
-      toast({
-        title: "Success",
-        description: "Todo updated successfully"
-      })
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to update todo",
-        variant: "destructive"
-      })
-    }
   }
 
   async function toggleComplete() {
     if (!todo) return
-
-    try {
       const updated = await api.updateTodo(todo.id, { completed: !todo.completed })
       setTodo(updated)
-      toast({
-        title: "Success",
-        description: "Todo status updated"
-      })
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to update todo status",
-        variant: "destructive"
-      })
-    }
   }
 
   async function deleteTodo() {
-    try {
       await api.deleteTodo(params.id)
-      toast({
-        title: "Success",
-        description: "Todo deleted successfully"
-      })
-      router.push('/')
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to delete todo",
-        variant: "destructive"
-      })
-    }
   }
 
   if (isLoading) {
